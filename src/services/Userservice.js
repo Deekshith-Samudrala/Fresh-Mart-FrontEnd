@@ -17,12 +17,12 @@ let userdata = async(userdata)=>{
 }
 
 let updateuserdata = async(data,userid)=>{
-    let result = await axios.put(`${api}/user/signup/${userid}`,data);
+    let result = await axios.put(`${api}/user/signup/details`,{...data,_id : userid});
     return result.data;
 }
 
 let updatepassword = async(data,userid)=>{
-    let result = await axios.put(`${api}/user/signup/password/${userid}`,data);
+    let result = await axios.put(`${api}/user/signup/password/reset`,{...data,_id : userid});
     return result.data;
 }
 
@@ -32,7 +32,7 @@ let getallusersdata = async()=>{
 }
 
 let deluser = async(userid)=>{
-    let result = await axios.delete(`${api}/user/signup/${userid}`);
+    let result = await axios.delete(`${api}/user/signup/user/delete`,userid);
     return result.data;
 }
 

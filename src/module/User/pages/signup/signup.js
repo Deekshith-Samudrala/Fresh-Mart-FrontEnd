@@ -55,6 +55,8 @@ const Signup = () => {
             contact : ""
         } ,
         onSubmit : async (formdata)=>{
+
+            //check if a user exists with the 
             let result = await Userservice.userdata(formdata);
             if(result.success){
                 let getuserid = async(name)=>{
@@ -68,10 +70,10 @@ const Signup = () => {
                 setAccerr(true);
                 if(result.err == 1){
                     setLoginbtn(true);
-                    setDisperr("An account with this email is already registered ! Please login to that account !");
+                    setDisperr(result?.message);
                 }
                 else if(result.err == 2){
-                    setDisperr("Name already exists ! Please give another Username");
+                    setDisperr(result?.message);
                 }
             }
         },

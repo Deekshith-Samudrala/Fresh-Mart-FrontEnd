@@ -45,6 +45,7 @@ const Userchangepassword = () => {
             renewpass : ""
         },
         onSubmit : async (formdata)=>{
+            delete formdata.newpass
             let result = await Userservice.updatepassword(formdata,userid);
             if(result.success){
                 navigate("/logout");
