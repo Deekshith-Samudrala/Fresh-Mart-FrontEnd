@@ -1,19 +1,27 @@
 import axios from "axios";
 import { api } from "../constants/serverapi";
 
-let getuserprofiledata = async (token)=>{
-    let result = await axios.get(`${api}/user/profile/${token}`);
+let getuserprofiledata = async (accessToken)=>{
+
+    let result = await axios.get(`${api}/user/data/token`,{
+
+        headers: {
+
+            Authorization: `Bearer ${accessToken}`
+
+        }});
+
     return result.data;
+
 }
 
 let checklogin = async (data)=>{
-    console.log("🚀 ~ checklogin ~ data:", data)
-    let result = await axios.post(`${api}/user/auth`,data);
+    let result = await axios.post(`${api}/user/login`,data);
     return result.data;
 }
 
 let getuserdatabyid = async (userid)=>{
-    let result = await axios.get(`${api}/user/profile/data/${userid}`);
+    let result = await axios.get(`${api}/user/userId/${userid}`);
     return result.data;
 }
 

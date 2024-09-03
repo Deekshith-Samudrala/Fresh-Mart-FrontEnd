@@ -2,7 +2,6 @@ import axios from 'axios';
 import { api } from '../constants/serverapi';
 
 let Add = async (obj) => {
-    console.log("🚀 ~ Add ~ obj:", obj)
     let result = await axios.post(`${api}/product/`,obj);
     return result.data;
 }
@@ -10,7 +9,6 @@ let Add = async (obj) => {
 let getall = async ()=>{
     let result = await axios.get(`${api}/product/`);
     return result.data;
-    console.log("🚀 ~ getall ~ result:", result)
 }
 
 let getone = async (id)=>{

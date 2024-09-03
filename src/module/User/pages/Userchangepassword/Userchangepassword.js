@@ -15,14 +15,16 @@ const Userchangepassword = () => {
     let [useremail,setUseremail] = useState("");
     let [userid,setUserid] = useState();
     let [dispmsg,setDispmsg] = useState(false);
+    let [accessToken,setAccessToken] = useState("");
 
     useEffect(()=>{
         if(localStorage.getItem("token")){
             let token = localStorage.getItem("token");
+            setAccessToken(token);
             let getdata = async(token)=>{
                 let result = await Profileservice.getuserprofiledata(token);
-                setUserid(result.info._id);
-                setUseremail(result.info.email);
+                setUserid(result.info[0]._id);
+                setUseremail(result.info[0].email);
             }
             getdata(token);
           }
@@ -45,8 +47,8 @@ const Userchangepassword = () => {
             renewpass : ""
         },
         onSubmit : async (formdata)=>{
-            delete formdata.newpass
-            let result = await Userservice.updatepassword(formdata,userid);
+            delete formdata.renewpass
+            let result = await Userservice.updatepassword(formdata,userid,accessToken);
             if(result.success){
                 navigate("/logout");
             }

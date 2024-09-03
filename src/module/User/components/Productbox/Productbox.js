@@ -7,7 +7,6 @@ import Randomstring from 'randomstring';
 import { assetspath } from '../../../../constants/imagefilepath';
 
 const Productbox = ({data,location,dispcartalert}) => {
-console.log("🚀 ~ Productbox ~ data:", data)
 
     let disp = useDispatch();
     let navigate = useNavigate();

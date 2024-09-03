@@ -33,7 +33,7 @@ const Checkout = () => {
 
                 let getuserdata = async (token)=>{
                     let result = await Profileservice.getuserprofiledata(token);
-                    setUserdata(result.info);
+                    setUserdata(result.info[0]);
                 }
                 getuserdata(token);
                 

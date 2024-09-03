@@ -74,7 +74,6 @@ const Productadd = () => {
       discount : updtproduct.discount ? updtproduct.discount : ""
     },
     onSubmit : async (formdata) => {
-      console.log("🚀 ~ onSubmit: ~ formdata:", formdata)
       if(params.productid){
         let result = await Productservice.update(params.productid,formdata);
         navigate(`/admin${adminkeyword}/product/list`);
@@ -82,12 +81,10 @@ const Productadd = () => {
       else{
 
         let frm = new FormData();
-        console.log("🚀 ~ onSubmit: ~ frm:", frm)
         
         frm.append("file",file.current.files[0]);
         frm.append("data",JSON.stringify(formdata));                                                                               
         
-        console.log("🚀 ~ onSubmit: ~ frm:", frm)
         let result = await Productservice.Add(frm);
         navigate(`/admin${adminkeyword}/product/list`);
       }
