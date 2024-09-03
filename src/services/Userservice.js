@@ -31,8 +31,8 @@ let getallusersdata = async()=>{
     return result.data;
 }
 
-let deluser = async(userid)=>{
-    let result = await axios.delete(`${api}/user/signup/user/delete`,userid);
+let deluser = async(userid) => {
+    let result = await axios.delete(`${api}/user/signup/user/delete/${userid}`);
     return result.data;
 }
 
