@@ -15,7 +15,6 @@ const Home = () => {
 
     useEffect(()=>{
         let getproducts = async ()=>{
-            console.log('hello')
             if(params.categoryid && params.categoryid !== "all"){   
                 let result = await  Productservice.getproductbycategory(params.categoryid);
                 setProduct(result.info);
@@ -26,7 +25,6 @@ const Home = () => {
             }
             else{
                 let result = await Productservice.getall();
-                console.log("🚀 ~ getproducts ~ result:", result)
                 setProduct(result.info);
             }
 
@@ -47,7 +45,6 @@ const Home = () => {
         setDispcartfull(true);
     }
 
-    console.log(product);
 
   return (
     <>

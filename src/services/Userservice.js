@@ -6,8 +6,10 @@ let getstate = async()=>{
     return result.data;
 }
 
-let getcity = async(statename)=>{
-    let result = await axios.get(`${api}/city/getcity`,{stateName :statename });
+let getcity = async(statename) => {
+
+    let result = await axios.get(`${api}/city/getcity`, {params: { stateName: statename }});
+
     return result.data;
 }
 
@@ -17,12 +19,17 @@ let userdata = async(userdata)=>{
 }
 
 let updateuserdata = async(data,userid)=>{
-    let result = await axios.put(`${api}/user/signup/details`,{...data,_id : userid});
+    let result = await axios.put(`${api}/user/update/details`,{...data,_id : userid});
     return result.data;
 }
 
-let updatepassword = async(data,userid)=>{
-    let result = await axios.put(`${api}/user/signup/password/reset`,{...data,_id : userid});
+let updatepassword = async(data,userid,accessToken) => {
+    let result = await axios.put(`${api}/user/password/reset`,{...data,_id : userid},{
+        headers : {
+            Authorization: `Bearer ${accessToken}`,  // Set the Authorization header
+            'Content-Type': 'application/json'  // Add any additional headers if needed
+        }
+    });
     return result.data;
 }
 

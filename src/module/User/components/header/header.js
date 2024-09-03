@@ -30,8 +30,8 @@
                 let token = localStorage.getItem("token");
                 let getuserid = async (token)=>{
                     let result = await Profileservice.getuserprofiledata(token);
-                    disp(login(result.info._id));
-                    disp(getcartitems(result.info._id));
+                    disp(login(result.info[0]._id));
+                    disp(getcartitems(result.info[0]._id));
                 }
                 getuserid(token);
             }

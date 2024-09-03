@@ -14,11 +14,11 @@ const Profile = () => {
             let token = localStorage.getItem("token");
             let getdata = async(token)=>{
                 let result = await Profileservice.getuserprofiledata(token);
-                setUserid(result.info._id);
-                delete result.info._id;
-                delete result.info.password;
-                delete result.info.__v;
-                setLoggeduser(result.info);
+                setUserid(result.info[0]._id);
+                delete result.info[0]._id;
+                delete result.info[0].password;
+                delete result.info[0].__v;
+                setLoggeduser(result.info[0]);
             }
             getdata(token);
           }

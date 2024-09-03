@@ -50,7 +50,7 @@ const Login = () => {
         onSubmit : async (formdata)=>{
             let result = await Profileservice.checklogin(formdata);
             if(result.success){ 
-                let token = result.token;
+                let token = result.accessToken;
                 localStorage.setItem("token",token);
                 disp(login(result.userid));
                 disp(getcartitems(result.userid));
