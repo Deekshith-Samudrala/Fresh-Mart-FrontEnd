@@ -7,7 +7,7 @@ let getstate = async()=>{
 }
 
 let getcity = async(statename)=>{
-    let result = await axios.get(`${api}/city/getcity/${statename}`);
+    let result = await axios.get(`${api}/city/getcity`,{stateName :statename });
     return result.data;
 }
 
