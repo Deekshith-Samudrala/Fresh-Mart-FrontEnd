@@ -1,7 +1,7 @@
 import axios from "axios";
 import { api } from "../constants/serverapi";
 
-let checklogin = async(data)=>{
+let adminLogin = async(data)=>{
     let result = await axios.post(`${api}/admin/login`,data);
     return result.data;
 }
@@ -16,4 +16,4 @@ let updateadminlogin = async(data)=>{
     return result.data;
 }
 
-export default {checklogin, getlogindetails, updateadminlogin};
+export default {adminLogin, getlogindetails, updateadminlogin};

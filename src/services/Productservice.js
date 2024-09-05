@@ -7,7 +7,7 @@ let Add = async (obj) => {
 }
 
 let getall = async ()=>{
-    let result = await axios.get(`${api}/product/`);
+    let result = await axios.get(`${api}/product/getAll`);
     return result.data;
 }
 

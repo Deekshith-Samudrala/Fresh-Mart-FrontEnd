@@ -2,7 +2,7 @@ import axios from "axios";
 import { api } from "../constants/serverapi";
 
 let getall = async ()=>{
-    let result = await axios.get(`${api}/category`);
+    let result = await axios.get(`${api}/category/getAll`);
     return result.data;
 }
 

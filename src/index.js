@@ -7,19 +7,20 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from '@reduxjs/toolkit';
 import Cartslice from './Redux/Cartslice';
 import Userauthslice from './Redux/Userauthslice';
+import adminDetailsSlice from './Redux/adminAuthSlice';
 
 let rootReducer = combineReducers({
-  Cartslice,Userauthslice
+  Cartslice,Userauthslice,adminDetailsSlice
 })
 
-let cartstore = configureStore({
+let store = configureStore({
     reducer : rootReducer
 })
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={cartstore}>
+    <Provider store={store}>
         <BrowserRouter>
             <App />
         </BrowserRouter>

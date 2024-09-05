@@ -34,12 +34,12 @@ let updatepassword = async(data,userid,accessToken) => {
 }
 
 let getallusersdata = async()=>{
-    let result = await axios.get(`${api}/user/signup`);
+    let result = await axios.get(`${api}/user/getAllUsers`);
     return result.data;
 }
 
 let deluser = async(userid) => {
-    let result = await axios.delete(`${api}/user/signup/user/delete/${userid}`);
+    let result = await axios.delete(`${api}/user/delete/${userid}`);
     return result.data;
 }
 
