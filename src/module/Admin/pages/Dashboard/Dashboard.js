@@ -35,15 +35,15 @@ const Dashboard = () => {
 
             let getusers = async ()=>{
                 let result = await Userservice.getallusersdata();
-                setUsers(result.info);
+                setUsers(result.users);
             }
             getusers();
         }
         else{
-        navigate(`/admin${adminkeyword}/login`)
+            navigate(`/admin${adminkeyword}/login`)
         }
-    },[users])
-
+    },[])
+    
     let changepass = ()=>{
         navigate(`/admin${adminkeyword}/changepass`);
     }

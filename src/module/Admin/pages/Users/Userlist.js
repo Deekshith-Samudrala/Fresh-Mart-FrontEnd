@@ -18,14 +18,14 @@ const Userlist = () => {
         if(localStorage.getItem("admintoken")){
             let getuserdata = async ()=>{
                 let result = await Userservice.getallusersdata();
-                setUserdetails(result.info);
+                setUserdetails(result.users);
             }
             getuserdata();
         }
         else{
             navigate(`admin${adminkeyword}/login`)
         }
-    },[userdetails]);
+    },[]);
 
     let askdeleteuser = async (user)=>{
         setSelecteduser(user);        
@@ -33,7 +33,7 @@ const Userlist = () => {
 
     let confdelete = async()=>{
         let result = await Userservice.deluser(selecteduser._id);
-        disp(userdeletecartremove(selecteduser._id));
+        // disp(userdeletecartremove(selecteduser._id));
     }
 
     return (

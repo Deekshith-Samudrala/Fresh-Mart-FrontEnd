@@ -54,7 +54,9 @@ const Signup = () => {
             city : "", 
             contact : ""
         } ,
-        onSubmit : async (formdata)=>{
+        onSubmit : async (formdata) => {
+            
+            delete formdata.repass;
 
             //check if a user exists with the 
             let result = await Userservice.userdata(formdata);

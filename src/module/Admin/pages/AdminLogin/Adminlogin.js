@@ -4,10 +4,14 @@ import * as Yup from "yup";
 import Adminservice from '../../../../services/Adminservice';
 import { useNavigate } from 'react-router-dom';
 import { adminkeyword } from '../../../../constants/Adminurl';
+import { useDispatch } from 'react-redux';
+import { adminLogin } from '../../../../Redux/adminAuthSlice';
 
 const Adminlogin = () => {
 
     let navigate = useNavigate();
+
+    let disp = useDispatch();
 
     let [err,setErr] = useState(false);
     let [errmessage,setErrmessage] = useState("");
@@ -32,10 +36,15 @@ const Adminlogin = () => {
           password : ""
         },
         onSubmit : async (formdata)=>{
-          let result = await Adminservice.checklogin(formdata);
+          let result = await Adminservice.adminLogin(formdata);
+          
+          //create an object to save in adminAuthSlice
+          const adminSliceObject = {adminInfo : result.pin,accessToken : result.accessToken};
+
+          //dispatch to slice
+          disp(adminLogin(adminSliceObject))
           if(result.success){
-            let result = await Adminservice.checklogin(formdata);
-            localStorage.setItem("admintoken",result.token);
+            localStorage.setItem("admintoken",result.accessToken);
             navigate(`/admin${adminkeyword}`);
           }
           else{
