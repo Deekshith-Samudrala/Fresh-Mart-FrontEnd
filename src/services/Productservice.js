@@ -2,7 +2,7 @@ import axios from 'axios';
 import { api } from '../constants/serverapi';
 
 let Add = async (obj) => {
-    let result = await axios.post(`${api}/product/`,obj);
+    let result = await axios.post(`${api}/product/addProduct`,obj);
     return result.data;
 }
 
@@ -12,7 +12,7 @@ let getall = async ()=>{
 }
 
 let getone = async (id)=>{
-    let result = await axios.get(`${api}/product/getone/${id}`);
+    let result = await axios.get(`${api}/product/getProduct/${id}`);
     return result.data;
 }
 
