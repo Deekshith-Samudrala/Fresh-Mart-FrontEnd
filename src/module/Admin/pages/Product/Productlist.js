@@ -4,6 +4,7 @@ import categoryservice from "../../../../services/Categoryservice";
 import Delmodal from '../../../../constants/Delmodal';
 import { useNavigate } from 'react-router-dom';
 import { adminkeyword } from '../../../../constants/Adminurl';
+import { useSelector } from 'react-redux';
 
 const Productlist = () => {
 
@@ -15,6 +16,8 @@ const Productlist = () => {
   let [cateid,setCateid] = useState("");
   let [subcateid,setSubcateid] = useState("");
   let [selectedproduct,setSelectedproduct] = useState("");
+
+  const loggedInAdminDetails = useSelector((state) => state.adminDetailsSlice);
 
   useEffect(()=>{
     if(localStorage.getItem("admintoken")){
@@ -44,7 +47,7 @@ const Productlist = () => {
     if(e.target.value != "101"){
     setSubcateid(e.target.value);
     let getproduct = async ()=>{
-      let result = await Productservice.getproducts(cateid,e.target.value);
+      let result = await Productservice.getproducts(cateid,e.target.value,loggedInAdminDetails.accessToken);
       setProduct(result.info);
     }
     getproduct();}

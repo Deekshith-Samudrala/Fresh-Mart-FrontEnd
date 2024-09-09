@@ -5,6 +5,7 @@ import { adminkeyword } from '../../../../constants/Adminurl';
 import Delmodal from '../../../../constants/Delmodal';
 import { useDispatch } from 'react-redux';
 import {userdeletecartremove} from "../../../../Redux/Cartslice";
+import { useSelector } from 'react-redux';
 
 const Userlist = () => {
 
@@ -13,6 +14,8 @@ const Userlist = () => {
 
     let [userdetails,setUserdetails] = useState([]);
     let [selecteduser,setSelecteduser] = useState({});
+
+    const loggedInAdminDetails = useSelector((state)=>state.adminDetailsSlice)
 
     useEffect(()=>{
         if(localStorage.getItem("admintoken")){
@@ -32,7 +35,7 @@ const Userlist = () => {
     }
 
     let confdelete = async()=>{
-        let result = await Userservice.deluser(selecteduser._id);
+        let result = await Userservice.deluser(selecteduser._id,loggedInAdminDetails.accessToken);
         // disp(userdeletecartremove(selecteduser._id));
     }
 

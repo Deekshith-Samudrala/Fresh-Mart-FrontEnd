@@ -5,6 +5,7 @@ import Categoryservice from "../../../../services/Categoryservice";
 import Productservice from "../../../../services/Productservice"
 import { useNavigate, useParams } from 'react-router-dom';
 import { adminkeyword } from '../../../../constants/Adminurl';
+import { useSelector } from 'react-redux';
 
 const Productadd = () => {
   const file = useRef(); // Reference for file input
@@ -18,13 +19,15 @@ const Productadd = () => {
   const [updtproduct, setUpdtproduct] = useState({});
   const [uploading, setUploading] = useState(false); // To disable button during upload
 
+  const loggedInAdminDetails = useSelector((state) => state.adminDetailsSlice);
+
   useEffect(() => {
     if (localStorage.getItem("admintoken")) {
       if (params.productid) {
         setTitle("Update");
         setSubmitbtn("Update");
         const getproductdeets = async () => { // get product details form the params id
-          let result = await Productservice.getone(params.productid);
+          let result = await Productservice.getone(params.productid,loggedInAdminDetails.accessToken);
           setUpdtproduct(result.info[0]);
         }
         getproductdeets();
@@ -74,7 +77,7 @@ const Productadd = () => {
     onSubmit: async (formdata) => {
       setUploading(true); // Set upload state to true
       if (params.productid) {
-        let result = await Productservice.update(params.productid, formdata);
+        let result = await Productservice.update(params.productid, formdata,loggedInAdminDetails.accessToken);
         navigate(`/admin${adminkeyword}/product/list`);
       } else {
         // Create new product with image upload
@@ -85,7 +88,7 @@ const Productadd = () => {
         frm.append("data", JSON.stringify(formdata));
 
         // Track upload progress
-        let result = await Productservice.Add(frm);
+        let result = await Productservice.Add(frm,loggedInAdminDetails.accessToken);
 
         if (result.success) {
           navigate(`/admin${adminkeyword}/product/list`);

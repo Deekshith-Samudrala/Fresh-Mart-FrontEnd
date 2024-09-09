@@ -43,8 +43,12 @@ let getallusersdata = async()=>{
     return result.data;
 }
 
-let deluser = async(userid) => {
-    let result = await axios.delete(`${api}/user/delete/${userid}`);
+let deluser = async(userid,accesstoken) => {
+    let result = await axios.delete(`${api}/user/delete/${userid}`,
+        {
+            headers: {Authorization: `Bearer ${accesstoken}`}
+        }
+    );
     return result.data;
 }
 

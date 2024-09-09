@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { api } from '../constants/serverapi';
 
-let Add = async (obj) => {
-    let result = await axios.post(`${api}/product/addProduct`,obj);
+let Add = async (obj,accessToken) => {
+    let result = await axios.post(`${api}/product/addProduct`,obj,
+        {
+            headers: {Authorization: `Bearer ${accessToken}`}
+        }
+        );
     return result.data;
 }
 
@@ -11,13 +15,21 @@ let getall = async ()=>{
     return result.data;
 }
 
-let getone = async (id)=>{
-    let result = await axios.get(`${api}/product/getProduct/${id}`);
+let getone = async (id,accessToken)=>{
+    let result = await axios.get(`${api}/product/getProduct/${id}`,
+        {
+            headers: {Authorization: `Bearer ${accessToken}`}
+        }
+    );
     return result.data;
 }
 
-let getproducts = async(cateid,subcateid)=>{
-    let result = await axios.get(`${api}/product/${cateid}/${subcateid}`);
+let getproducts = async(cateid,subcateid,accessToken) => {
+    let result = await axios.get(`${api}/product/${cateid}/${subcateid}`,
+        {
+            headers: {Authorization: `Bearer ${accessToken}`}
+        }
+        );
     return result.data;
 }
 
@@ -36,8 +48,12 @@ let Deletebyid = async (id)=>{
     return result.data;
 }
 
-let update = async (id,data)=>{
-    let result = await axios.put(`${api}/product/${id}`,data);
+let update = async (id,data,accessToken)=>{
+    let result = await axios.put(`${api}/product/${id}`,data,
+        {
+            headers: {Authorization: `Bearer ${accessToken}`}
+        }
+    );
     return result.data;
 }
 
