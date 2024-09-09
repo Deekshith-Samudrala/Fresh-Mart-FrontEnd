@@ -4,8 +4,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import signupSchema from '../validationSchema/Signupvalschema';
 import Userservice from '../../../../services/Userservice';
 import { useDispatch } from 'react-redux';
-import { cartinit } from '../../../../Redux/Cartslice';
-import Profileservice from '../../../../services/Profileservice';
 
 const Signup = () => {
 
@@ -13,7 +11,7 @@ const Signup = () => {
     let disp = useDispatch();
 
     let [accerr,setAccerr] = useState(false);
-    let [disperr,setDisperr] = useState("");
+    let [disperr,setDisperr] = useState([]); // array of error messages to be displayed
     let [loginbtn,setLoginbtn] = useState(false);
     let [passreveal,setPassreveal] = useState(false);
     let [repassreveal,setRepassreveal] = useState(false);
@@ -42,7 +40,11 @@ const Signup = () => {
         citylist(e);
     }
 
-    let { handleSubmit , handleChange , errors , touched} = useFormik({
+    //reset form is used to reset formik form
+    //values is used to get the current formik values
+    //setFieldValue is used to set a value to a formik field
+
+    const { handleSubmit , handleChange , errors , touched,resetForm,values,setFieldValue} = useFormik({
         initialValues : {
             name : "",
             email : "",
@@ -54,27 +56,30 @@ const Signup = () => {
             city : "", 
             contact : ""
         } ,
-        onSubmit : async (formdata) => {
-            
-            delete formdata.repass;
-
-            //check if a user exists with the 
-            let result = await Userservice.userdata(formdata);
+        onSubmit : async (formdata) => { 
+                delete formdata.repass;
+                
+                //check if a user exists with the 
+                let result = await Userservice.userdata(formdata);
+        
             if(result.success){
-                let getuserid = async(name)=>{
-                    let result = await Profileservice.getuserbyname(name);
-                    disp(cartinit(result.info[0]._id));
-                }
-                getuserid(formdata.name);
+                //reset the form if registration is successfull.
+                resetForm();
+                // disp(cartinit(result.userDetails));
                 navigate("/");
             }
             else{
                 setAccerr(true);
-                if(result.err == 1){
-                    setLoginbtn(true);
+
+                //validation error
+                if(result.status == 400){
                     setDisperr(result?.message);
                 }
-                else if(result.err == 2){
+                //business logic error
+                else if(result.status == 409){
+                    if(result.errorCode == "EMAIL_EXISTS"){
+                        setLoginbtn(true);
+                    }
                     setDisperr(result?.message);
                 }
             }
@@ -82,6 +87,17 @@ const Signup = () => {
         validationSchema : signupSchema
     });
 
+    useEffect(() => {
+        // If form values have changed and there were errors, reset the errors
+        if (disperr.length > 0) {
+            setDisperr([]); // If form values have changed and there were errors, reset the errors
+            setLoginbtn(false); // If form values have changed and login button is displayed, reset it
+            setFieldValue('password', '');  // Reset password if any of the fields have changed in the form
+            setFieldValue('repass', '');    // Reset repass if any of the fields have changed in the form
+        }
+    }, [values]);
+
+    //function for revealing and concealing the password 
     let passwordreveal = ()=>{
         if(passreveal){
             setPassreveal(false);
@@ -91,6 +107,7 @@ const Signup = () => {
         }
     }
 
+    //function for revealing and concealing the re enter password 
     let repasswordreveal = ()=>{
         if(repassreveal){
             setRepassreveal(false);
@@ -126,7 +143,7 @@ const Signup = () => {
                     <div className='formgroup'>
                         <label className='my-2'>Password</label>
                         <div className='btn-group btn-block'>
-                            <input name="password" onChange={handleChange} type={passreveal ? "text" : "password"} className={'form-control my-2  ' + (errors.password && touched.password ? "is-invalid" : "")}></input>
+                            <input value={values.password} name="password" onChange={handleChange} type={passreveal ? "text" : "password"} className={'form-control my-2  ' + (errors.password && touched.password ? "is-invalid" : "")}></input>
                             <button onClick={passwordreveal} type="button" className={'btn my-2 ' + (passreveal ? "btn-danger" : "btn-primary") }>{passreveal ? "Hide" : "Show"}</button>
                         </div>
                         <small className="text-danger">
@@ -136,7 +153,7 @@ const Signup = () => {
                     <div className='formgroup'>
                         <label className='my-2'>Re-enter password</label>
                         <div className='btn-group btn-block'>
-                            <input name="repass" onChange={handleChange} type={repassreveal ? "text" : "password"} className={'form-control my-2 ' + (errors.repass && touched.repass ? "is-invalid" : "")}></input>
+                            <input value={values.repass} name="repass" onChange={handleChange} type={repassreveal ? "text" : "password"} className={'form-control my-2 ' + (errors.repass && touched.repass ? "is-invalid" : "")}></input>
                             <button onClick={repasswordreveal} type="button" className={'btn my-2 ' + (repassreveal ? "btn-danger" : "btn-primary")}>{repassreveal ? "Hide" : "Show"}</button>
                         </div>
                         <small className="text-danger">
@@ -207,12 +224,17 @@ const Signup = () => {
                 </div>
                 
             </div >
+            {/*map the errors of the form and display all errors*/}
             {
-                accerr ? (
-                <div className='col-md-6 offset-md-3 alert alert-danger'>
-                    {disperr}
-                </div>
-                ) : ""
+                accerr && disperr.length > 0 ? 
+                        disperr.map((err,index)=>
+                            (
+                                <div key={index} className='col-md-6 offset-md-3 alert alert-danger'>
+                                    {err}
+                                </div>
+                            )
+                        )
+                 : ""
             }
             
             </form>

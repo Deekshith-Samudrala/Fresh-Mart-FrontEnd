@@ -14,8 +14,13 @@ let getcity = async(statename) => {
 }
 
 let userdata = async(userdata)=>{
-    let result = await axios.post(`${api}/user/signup`,userdata);
-    return result.data;
+    try{
+        let result = await axios.post(`${api}/user/signup`,userdata);
+        return result.data;
+    }catch(err){
+        //return error message,statusCode and errorCode to page
+        return {success : false,message : err.response.data.message,status : err.response.status,errorCode :err.response.data.errorCode };
+    }
 }
 
 let updateuserdata = async(data,userid)=>{

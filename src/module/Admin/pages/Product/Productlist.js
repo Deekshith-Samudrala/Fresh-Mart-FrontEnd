@@ -53,14 +53,21 @@ const Productlist = () => {
     }
   }
 
-  let setproduct = (e)=>{
-    setSelectedproduct(e);
+  //set the product id to selected product state
+  let setproduct = (e) => {
+    setSelectedproduct(e._id);
   }
 
+  //function for confirming deletion of a product
   let confdelete = async ()=>{
-    let result = await Productservice.Deletebyname(selectedproduct);
+
+    let result = await Productservice.Deletebyid(selectedproduct);
+
+    //remove the deleted product from the array.
     setProduct((arr)=>{
-      return arr.filter((val)=>val != selectedproduct);
+      return arr.filter((val) => {
+        return val._id != selectedproduct
+      })
     });
   }
 

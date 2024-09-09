@@ -4,7 +4,7 @@ let signupSchema = Yup.object({
     name : Yup.string().required("Enter your Name"),
     email : Yup.string().email("Enter valid email").required("Enter your E-Mail"),
     password : Yup.string().required("Enter your Password"),
-    repass : Yup.string().oneOf([Yup.ref("password")],"Password and re-password does not match").required("Re-enter your Passoword"),
+    repass: Yup.string().oneOf([Yup.ref('password'), null], "Passwords do not match").required("Re-enter your Password"),
     address : Yup.string().required("Enter your Address"),
     gender : Yup.string().required("Select your Gender"),
     state : Yup.string().required("Select your State"),

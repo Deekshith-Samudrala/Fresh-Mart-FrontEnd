@@ -32,12 +32,7 @@ let getproductbysubcategory = async(subcateid)=>{
 }
 
 let Deletebyid = async (id)=>{
-    let result = await axios.post(`${api}/product/DelId/${id}`);
-    return result.data;
-}
-
-let Deletebyname = async(product)=>{
-    let result = await axios.delete(`${api}/product/DelName/${product.title}`);
+    let result = await axios.delete(`${api}/product/delete/id/${id}`);
     return result.data;
 }
 
@@ -47,4 +42,4 @@ let update = async (id,data)=>{
 }
 
 
-export default {Add, getall, getone, getproductbycategory,getproductbysubcategory, Deletebyid, Deletebyname, update, getproducts}
+export default {Add, getall, getone, getproductbycategory,getproductbysubcategory, Deletebyid, update, getproducts}
