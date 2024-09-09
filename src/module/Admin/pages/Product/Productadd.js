@@ -16,7 +16,6 @@ const Productadd = () => {
   const [title, setTitle] = useState("Add New");
   const [submitbtn, setSubmitbtn] = useState("Add");
   const [updtproduct, setUpdtproduct] = useState({});
-  const [uploadProgress, setUploadProgress] = useState(0); // To track progress of upload
   const [uploading, setUploading] = useState(false); // To disable button during upload
 
   useEffect(() => {
@@ -86,13 +85,7 @@ const Productadd = () => {
         frm.append("data", JSON.stringify(formdata));
 
         // Track upload progress
-        let result = await Productservice.Add(frm, {
-          onUploadProgress: (progressEvent) => {
-            const total = progressEvent.total || 1;
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / total);
-            setUploadProgress(percentCompleted); // Update progress bar
-          }
-        });
+        let result = await Productservice.Add(frm);
 
         if (result.success) {
           navigate(`/admin${adminkeyword}/product/list`);
@@ -169,7 +162,7 @@ const Productadd = () => {
                   )
                   : (
                     <>
-                      <input className={'form-control ' + (errors.image && touched.image ? "is-invalid" : "")} onChange={(e) => { handleFileChange(e); handleChange(e); }} name="image" type="file" ref={file}></input>
+                      <input className={'form-control ' + (errors.image && touched.image ? "is-invalid" : "")} onChange={(e) => { handleFileChange(e); handleChange(e); }} name="image" type="file" ref={file} accept="image/jpeg, image/png, image/gif"></input>
                       <small className='text-danger'>
                           {(errors.image && touched.image) ? errors.image : ""}
                         </small>
@@ -233,14 +226,6 @@ const Productadd = () => {
                   {(errors.discount && touched.discount) ? errors.discount : ""}
                 </small>
               </div>
-            {/* Display upload progress */}
-            {uploading && (
-              <div className="progress">
-                <div className="progress-bar" role="progressbar" style={{ width: `${uploadProgress}%` }}>
-                  {uploadProgress}%
-                </div>
-              </div>
-            )}
             <button className='btn btn-success' type="submit" disabled={uploading}>{submitbtn}</button>
           </div>
         </div>
